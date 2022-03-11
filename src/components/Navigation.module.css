@@ -1,0 +1,18 @@
+.ul {
+    list-style: none;
+}
+
+.ul li{
+    display: inline-block;
+    margin-right: 0.7rem;
+    
+}
+
+.item {
+    color: rgb(185, 185, 185);
+    text-decoration: none;
+}
+
+.active {
+    color: #fff;
+}

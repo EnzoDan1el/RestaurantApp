@@ -1,0 +1,58 @@
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+}
+
+.inner{
+    padding: 2rem;
+}
+
+.inner div{
+    margin-bottom: 1rem;
+}
+
+.container form{
+    margin-top: 1rem;
+    padding: 0.5rem;
+}
+
+label,
+input{
+    display: block;
+}
+
+input{
+    width: 400px;
+    height: 30px;
+}
+
+.password{
+    width: 370px;
+    display: inline-block;
+}
+.invalid {
+    background-color: rgb(226, 21, 21);
+}
+.visible{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+}
+
+.login{
+    display: flex;
+    margin-top: 2rem;
+    justify-content: flex-end;
+}
+
+.login button {
+    padding: 0.7rem 1rem;
+    background-color: rgb(40, 40, 255);
+    color: #fff;
+    border-radius: 15%;
+}
+.login button:hover{
+    background-color: blue;
+}

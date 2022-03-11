@@ -1,0 +1,18 @@
+footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding: 5rem;
+}
+
+footer hr{
+    width: 100%;
+}
+
+footer div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+}

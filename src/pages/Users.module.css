@@ -1,0 +1,40 @@
+.container {
+    width: 80%;
+    margin: 2rem auto;
+    height: 400px;
+    overflow-y: scroll;
+}
+
+.header {
+    display: flex;
+    margin: 0 4rem;
+    justify-content: space-between;
+}
+
+.header button{
+    padding: 0 1rem;
+    background-color: rgb(40, 40, 255);
+    color: #fff;
+    border-radius: 10%;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.header button:hover{
+    background-color: blue;
+}
+
+hr{
+    margin: 0.5rem 0;
+}
+
+.name-email{
+    display: grid;
+    grid-template-columns: 20rem 20rem;
+    margin: 1rem 0;
+    padding: 0 1rem;
+}
+
+ul li {
+    list-style: none;
+}

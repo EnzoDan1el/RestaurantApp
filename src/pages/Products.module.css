@@ -1,0 +1,41 @@
+.container {
+    width: 80%;
+    margin: 2rem auto;
+    height: 400px;
+    overflow-y: scroll;
+}
+
+.header {
+    display: flex;
+    margin: 0 4rem;
+    justify-content: space-between;
+}
+
+.header button{
+    padding: 0 1rem;
+    background-color: rgb(40, 40, 255);
+    color: #fff;
+    border-radius: 10%;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.labels{
+    font-size: 1.2rem;
+}
+
+.labels, 
+.inputs{
+    display: grid;
+    grid-template-columns: 25rem 25rem;
+}
+
+.inputs input, select{
+    width: 350px;
+    margin-bottom: 0.5rem;
+}
+
+.second-header{
+    display: grid;
+    grid-template-columns: 17rem 27rem 17rem;
+}
