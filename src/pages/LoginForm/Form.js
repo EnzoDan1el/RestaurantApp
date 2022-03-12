@@ -62,7 +62,6 @@ const Form = () => {
         const valid = validateEmail(values.email) && validatePassword(values.password);
         if (valid){
             const data = await loginFetch(values.email, values.password);
-            console.log(typeof(data))
             if(typeof(data) === 'string'){
                 setUserError('Bad Request');
             }else{

@@ -22,16 +22,16 @@ const loginFetch = async (email, password) => {
     const data = await response.json();
     const { token_type, access_token } = data;
 
-    const secondres = await fetch("https://devcamp-2022-1-restaurant.azurewebsites.net/api/users/me", {
+    const secondRequest = await fetch("https://devcamp-2022-1-restaurant.azurewebsites.net/api/users/me", {
         headers: {
           Accept: "text/plain",
           Authorization: `${token_type} ${access_token}`
         }
     })
 
-    const returnval = await secondres.json();
+    const returnValue = await secondRequest.json();
 
-    const {role} = returnval;
+    const {role} = returnValue;
 
     return {token_type, access_token, role};
 }

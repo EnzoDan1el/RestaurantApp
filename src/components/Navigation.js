@@ -1,7 +1,15 @@
 import classes from './Navigation.module.css';
 import { NavLink } from 'react-router-dom';
+import { useContext } from 'react';
+import AuthContext from "../context-store/authentication-ctx";
 
 const Navigation = () => {
+    const ctx = useContext(AuthContext);
+
+    const handleLogout = () => {
+        ctx.logout();
+    }
+
     return(
         <nav>
             <ul className={classes.ul}>
@@ -31,6 +39,7 @@ const Navigation = () => {
                     </NavLink>
                 </li>
             </ul>
+            <button className={classes.logout} onClick={handleLogout}>Logout</button>
         </nav>
     );
 }

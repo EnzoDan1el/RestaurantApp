@@ -1,5 +1,6 @@
 .ul {
     list-style: none;
+    display: inline-block;
 }
 
 .ul li{
@@ -14,5 +15,23 @@
 }
 
 .active {
+    color: #fff;
+}
+
+.logout {
+    padding: 0.5rem 1rem;
+    color: rgb(40, 40, 255);
+    background-color: #fff;
+    border: none;
+    border-radius: 15%;
+    display: inline-block;
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+}
+
+.logout:hover{
+    cursor: pointer;
+    background-color: lightblue;
     color: #fff;
 }
