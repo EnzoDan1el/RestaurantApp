@@ -1,3 +1,5 @@
+const BASE_URL = "https://devcamp-2022-1-restaurant.azurewebsites.net/api/";
+
 const loginFetch = async (email, password) => {
 
     const body = {
@@ -5,7 +7,7 @@ const loginFetch = async (email, password) => {
         "password": password
     }
 
-    const response = await fetch("https://devcamp-2022-1-restaurant.azurewebsites.net/api/authorize", {
+    const response = await fetch(`${BASE_URL}authorize`, {
           body: JSON.stringify(body),
           headers: {
             Accept: "text/plain",
@@ -34,6 +36,33 @@ const loginFetch = async (email, password) => {
     const {role} = returnValue;
 
     return {token_type, access_token, role};
+}
+
+export const fetchGet = async (request, token_type, access_token) => {
+    const response = await fetch(`${BASE_URL}${request}`, {
+        method: 'GET',
+        headers: {
+            Accept: "text/plain",
+            Authorization: `${token_type} ${access_token}`
+        }
+    })
+
+    const data = await response.json();
+
+    return data.items;
+}
+
+export const fetchDelete = async (request, id,  token_type, access_token) => {
+    const response = await fetch(`${BASE_URL}${request}/${id}`, {
+        headers: {
+          Accept: "*/*",
+          Authorization: `${token_type} ${access_token}`
+        },
+        method: "DELETE"
+    })
+
+    const data = await response.json();
+    return data;
 }
 
 export default loginFetch;

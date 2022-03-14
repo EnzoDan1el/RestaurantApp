@@ -3,6 +3,7 @@
     margin: 2rem auto;
     height: 400px;
     overflow-y: scroll;
+    overflow-x: auto;
 }
 
 .header {
@@ -37,4 +38,19 @@ hr{
 
 ul li {
     list-style: none;
+}
+.container2 {
+    display: grid;
+    grid-template-columns: 20rem 30rem 5rem 5rem;
+    margin: 1rem 0;
+    padding: 1rem;
+    background-color: rgb(218, 218, 218);
+}
+
+.edit {
+    margin-right: 0.5rem;
+    background-color: green;
+}
+.delete {
+    background-color: red;
 }

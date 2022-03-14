@@ -1,5 +1,8 @@
 import classes from './Products.module.css';
 import Product from '../components/Product';
+import { useContext, useState, useEffect } from 'react';
+import AuthContext from '../context-store/authentication-ctx';
+import { fetchGet } from '../utils/fetch-data';
 
 const dummy = [
     {id: 1, name: 'Product1', category: 'category 1.1', price: '12'},
@@ -11,6 +14,20 @@ const dummy = [
 ]
 
 const Products = () => {
+
+    const [products, setProducts] = useState([]);
+    const ctx = useContext(AuthContext);
+    
+    useEffect(() => {
+        const fetchProducts = async () => { 
+            const items = await fetchGet('products', ctx.tokenType, ctx.accessToken);
+            setProducts(items);
+        };
+
+        fetchProducts();
+    }, []);
+
+
     return(
         <div className={classes.container}>
             <div className={classes.header}>
@@ -26,7 +43,7 @@ const Products = () => {
                 <div className={classes.inputs}>
                     <input type='text'/>
                     <select>
-                        {dummy.map(item => 
+                        {products.map(item => 
                             <option value={item.category}>{item.category}</option>
                         )}
                     </select>
@@ -40,7 +57,7 @@ const Products = () => {
             </div>
             <div>
                 <ul>
-                    {dummy.map((item) => 
+                    {products.map((item) => 
                         <li key={item.id}>
                             <Product name={item.name} category={item.category} price={item.price}/>
                         </li>

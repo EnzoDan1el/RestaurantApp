@@ -1,15 +1,27 @@
-import User from '../components/User';
 import classes from './Users.module.css';
-
-const dummy = [
-    {id:1, name: 'Enzo', email:'enzo@mail.com'},
-    {id:2, name: 'Daniel', email:'daniel@mail.com'},
-    {id:3, name: 'Mara', email:'mara@mail.com'},
-    {id:4, name: 'Grace', email:'grace@mail.com'},
-    {id:5, name: 'Guido', email:'guido@mail.com'},
-]
+import AuthContext from '../context-store/authentication-ctx';
+import { useContext, useState, useEffect } from 'react';
+import { fetchGet, fetchDelete } from '../utils/fetch-data';
 
 const Users = () => {
+
+    const [users, setUsers] = useState([]);
+    const ctx = useContext(AuthContext);
+
+    const handleDelete = async (id) => {
+        const response = await fetchDelete('users', id, ctx.tokenType, ctx.accessToken);
+        console.log(response);
+    }
+    
+    useEffect(() => {
+        const fetchUsers = async () => { 
+            const items = await fetchGet('users', ctx.tokenType, ctx.accessToken);
+            setUsers(items);
+        };
+
+        fetchUsers();
+    }, [users]);
+
     return(
         <div className={classes.container}>
             <div className={classes.header}>
@@ -24,9 +36,22 @@ const Users = () => {
             <hr/>
             <div>
                 <ul>
-                    {dummy.map(user => 
+                    {users.map(user => 
                         <li key={user.id}>
-                            <User name={user.name} email={user.email}/>
+                            <div className={classes.container2}>
+                                <div>{user.name}</div>
+                                <div>{user.email}</div>
+                                <button 
+                                    className={classes.edit} 
+                                    onClick={()=> console.log(user.id)}>
+                                        Edit
+                                </button>
+                                <button 
+                                    className={classes.delete} 
+                                    onClick={()=> handleDelete(user.id)}>
+                                        Delete
+                                </button>
+                            </div>  
                         </li>
                     )}
                 </ul>
