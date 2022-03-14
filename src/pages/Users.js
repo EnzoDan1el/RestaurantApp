@@ -1,26 +1,44 @@
 import classes from './Users.module.css';
 import AuthContext from '../context-store/authentication-ctx';
 import { useContext, useState, useEffect } from 'react';
-import { fetchGet, fetchDelete } from '../utils/fetch-data';
+import { fetchFunction } from '../utils/fetch-data';
+import ReactPaginate from 'react-paginate';
+import User from '../components/User';
 
 const Users = () => {
 
     const [users, setUsers] = useState([]);
     const ctx = useContext(AuthContext);
 
-    const handleDelete = async (id) => {
-        const response = await fetchDelete('users', id, ctx.tokenType, ctx.accessToken);
-        console.log(response);
-    }
+    const [currentItems, setCurrentItems] = useState(null);
+    const [pageCount, setPageCount] = useState(0);
+    const [itemOffset, setItemOffset] = useState(0);
+    const itemsPerPage = 3;
     
     useEffect(() => {
+
+        const headers = {
+            Accept: "text/plain",
+            Authorization: `${ctx.tokenType} ${ctx.accessToken}`
+        }
+
         const fetchUsers = async () => { 
-            const items = await fetchGet('users', ctx.tokenType, ctx.accessToken);
+            const data = await fetchFunction('users', 'GET', headers);
+            const items = await data.items;
             setUsers(items);
+            const endOffset = itemOffset + itemsPerPage;
+            setCurrentItems(users.slice(itemOffset, endOffset));
+            setPageCount(Math.ceil(users.length / itemsPerPage));
         };
 
         fetchUsers();
-    }, [users]);
+
+    }, [users, itemOffset, itemsPerPage]);
+
+    const handlePageClick = (event) => {
+        const newOffset = (event.selected * itemsPerPage) % users.length;
+        setItemOffset(newOffset);
+    };
 
     return(
         <div className={classes.container}>
@@ -35,26 +53,18 @@ const Users = () => {
             </div>
             <hr/>
             <div>
-                <ul>
-                    {users.map(user => 
-                        <li key={user.id}>
-                            <div className={classes.container2}>
-                                <div>{user.name}</div>
-                                <div>{user.email}</div>
-                                <button 
-                                    className={classes.edit} 
-                                    onClick={()=> console.log(user.id)}>
-                                        Edit
-                                </button>
-                                <button 
-                                    className={classes.delete} 
-                                    onClick={()=> handleDelete(user.id)}>
-                                        Delete
-                                </button>
-                            </div>  
-                        </li>
-                    )}
-                </ul>
+                <User currentItems={currentItems ? currentItems : []} />
+                <ReactPaginate
+                    breakLabel="..."
+                    nextLabel="next >"
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={5}
+                    pageCount={pageCount}
+                    previousLabel="< previous"
+                    renderOnZeroPageCount={null}
+                    className={classes.bar}
+                    activeClassName={classes.active}
+                />
             </div>
         </div>
     );

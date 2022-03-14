@@ -23,21 +23,27 @@ const Navigation = () => {
                         Orders
                     </NavLink>
                 </li>
-                <li>
-                    <NavLink to='/products' className={classes.item} activeClassName={classes.active}>
-                        Products
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to='/categories' className={classes.item} activeClassName={classes.active}>
-                        Categories
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to='/users' className={classes.item} activeClassName={classes.active}>
-                        Users
-                    </NavLink>
-                </li>
+                {ctx.role === 'Admin' && 
+                    <li>
+                        <NavLink to='/products' className={classes.item} activeClassName={classes.active}>
+                            Products
+                        </NavLink>
+                    </li>
+                }
+                {ctx.role === 'Admin' && 
+                    <li>
+                        <NavLink to='/categories' className={classes.item} activeClassName={classes.active}>
+                            Categories
+                        </NavLink>
+                    </li>
+                }
+                {ctx.role === 'Admin' && 
+                    <li>
+                        <NavLink to='/users' className={classes.item} activeClassName={classes.active}>
+                            Users
+                        </NavLink>
+                    </li>
+                }
             </ul>
             <button className={classes.logout} onClick={handleLogout}>Logout</button>
         </nav>

@@ -2,16 +2,7 @@ import classes from './Products.module.css';
 import Product from '../components/Product';
 import { useContext, useState, useEffect } from 'react';
 import AuthContext from '../context-store/authentication-ctx';
-import { fetchGet } from '../utils/fetch-data';
-
-const dummy = [
-    {id: 1, name: 'Product1', category: 'category 1.1', price: '12'},
-    {id: 2, name: 'Product2', category: 'category 1.2', price: '13'},
-    {id: 3, name: 'Product3', category: 'category 1.3', price: '14'},
-    {id: 4, name: 'Product4', category: 'category 1.4', price: '15'},
-    {id: 5, name: 'Product5', category: 'category 1.5', price: '16'},
-    {id: 6, name: 'Product6', category: 'category 1.6', price: '17'},
-]
+import { fetchFunction } from '../utils/fetch-data';
 
 const Products = () => {
 
@@ -19,8 +10,14 @@ const Products = () => {
     const ctx = useContext(AuthContext);
     
     useEffect(() => {
+        const headers = {
+            Accept: "text/plain",
+            Authorization: `${ctx.tokenType} ${ctx.accessToken}`
+        }
+
         const fetchProducts = async () => { 
-            const items = await fetchGet('products', ctx.tokenType, ctx.accessToken);
+            const data = await fetchFunction('products', 'GET', headers);
+            const items = await data.items;
             setProducts(items);
         };
 
