@@ -4,11 +4,13 @@ import { useContext, useState, useEffect } from 'react';
 import { fetchFunction } from '../utils/fetch-data';
 import ReactPaginate from 'react-paginate';
 import User from '../components/User';
+import { useHistory } from 'react-router-dom';
 
 const Users = () => {
 
     const [users, setUsers] = useState([]);
     const ctx = useContext(AuthContext);
+    const history = useHistory();
 
     const [currentItems, setCurrentItems] = useState(null);
     const [pageCount, setPageCount] = useState(0);
@@ -16,6 +18,8 @@ const Users = () => {
     const itemsPerPage = 3;
     
     useEffect(() => {
+
+        let isApiSubscribed = true;
 
         const headers = {
             Accept: "text/plain",
@@ -30,8 +34,12 @@ const Users = () => {
             setCurrentItems(users.slice(itemOffset, endOffset));
             setPageCount(Math.ceil(users.length / itemsPerPage));
         };
+        
+        if(isApiSubscribed){
+            fetchUsers();
+        }
 
-        fetchUsers();
+        return () => { isApiSubscribed = false }
 
     }, [users, itemOffset, itemsPerPage]);
 
@@ -40,11 +48,15 @@ const Users = () => {
         setItemOffset(newOffset);
     };
 
+    const handleNewUSer = () => {
+        history.push('/users/new')
+    }
+
     return(
         <div className={classes.container}>
             <div className={classes.header}>
                 <h1>Users</h1>
-                <button>Add new user</button>
+                <button onClick={handleNewUSer}>Add new user</button>
             </div>
             <hr/>
             <div className={classes['name-email']}>

@@ -1,4 +1,4 @@
-import classes from './Form.module.css';
+import classes from './LoginForm.module.css';
 import { useState, useContext } from 'react';
 import { FaRegEye } from 'react-icons/fa';
 import { passwordValidation, emailValidation } from '../../utils/input-validators';
@@ -6,7 +6,7 @@ import loginFetch from '../../utils/fetch-data';
 import { useHistory } from 'react-router-dom';
 import AuthContext from '../../context-store/authentication-ctx';
 
-const Form = () => {
+const LoginForm = () => {
 
     const history = useHistory();
     const ctx = useContext(AuthContext);
@@ -116,4 +116,4 @@ const Form = () => {
     );
 }
 
-export default Form;
+export default LoginForm;

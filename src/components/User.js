@@ -2,11 +2,13 @@ import { fetchFunction } from "../utils/fetch-data";
 import AuthContext from "../context-store/authentication-ctx";
 import { useContext } from 'react';
 import classes from './User.module.css';
+import { useHistory } from "react-router-dom";
 
 
 const User = ({ currentItems }) => {
 
     const ctx = useContext(AuthContext);
+    const history = useHistory();
 
     const handleDelete = async (id) => {
 
@@ -19,6 +21,11 @@ const User = ({ currentItems }) => {
         const response = await fetchFunction(request, 'DELETE', headers);
         console.log(response);
     }
+
+    const handleEdit = (id) => {
+        const strId = id.toString();
+        history.push(`users/edit/${strId}`)
+    }
     
     return(
         <ul>
@@ -29,7 +36,7 @@ const User = ({ currentItems }) => {
                         <div>{user.email}</div>
                         <button 
                             className={classes.edit} 
-                            onClick={()=> console.log(user.id)}>
+                            onClick={()=> handleEdit(user.id)}>
                                 Edit
                         </button>
                         <button 

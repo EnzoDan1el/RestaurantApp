@@ -1,8 +1,8 @@
-import Form from "./LoginForm/Form"
+import LoginForm from "./Forms/LoginForm"
 
 const Login = () => {
     return(
-        <Form />
+        <LoginForm />
     )
 }
 

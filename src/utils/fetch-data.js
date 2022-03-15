@@ -3,13 +3,13 @@ const BASE_URL = "https://devcamp-2022-1-restaurant.azurewebsites.net/api/";
 export const fetchFunction = async (request, method, payload, body=null) => {
     const response = await fetch(`${BASE_URL}${request}`, {
         method: method,
-        body: body ? JSON.stringify(body) : null,
+        body: body,
         headers: payload
 
     })
 
     if(!response.ok){
-        return response.statusText;
+        return response;
     }
 
     const data = await response.json();
@@ -28,7 +28,7 @@ const loginFetch = async (email, password) => {
         "Content-Type": "application/json"
     }
 
-    const data = await fetchFunction('authorize', 'POST', firstHeader, body);
+    const data = await fetchFunction('authorize', 'POST', firstHeader, JSON.stringify(body));
 
     if (typeof(data) === 'string'){
         return data;
@@ -49,3 +49,21 @@ const loginFetch = async (email, password) => {
 }
 
 export default loginFetch;
+
+
+
+export const fetchNew = async (token_type, access_token, body) => {
+    const response = await fetch("https://devcamp-2022-1-restaurant.azurewebsites.net/api/users", {
+        body: JSON.stringify(body),
+        headers: {
+            Accept: "text/plain",
+            Authorization:`${token_type} ${access_token}` ,
+            "Content-Type": "multipart/form-data"
+        },
+        method: "POST"
+    })
+
+    const data = await response.json();
+
+    return data;
+}
