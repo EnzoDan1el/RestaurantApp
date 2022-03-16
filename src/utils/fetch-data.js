@@ -9,7 +9,7 @@ export const fetchFunction = async (request, method, payload, body=null) => {
     })
 
     if(!response.ok){
-        return response;
+        return response.statusText;
     }
 
     const data = await response.json();
@@ -49,21 +49,3 @@ const loginFetch = async (email, password) => {
 }
 
 export default loginFetch;
-
-
-
-export const fetchNew = async (token_type, access_token, body) => {
-    const response = await fetch("https://devcamp-2022-1-restaurant.azurewebsites.net/api/users", {
-        body: JSON.stringify(body),
-        headers: {
-            Accept: "text/plain",
-            Authorization:`${token_type} ${access_token}` ,
-            "Content-Type": "multipart/form-data"
-        },
-        method: "POST"
-    })
-
-    const data = await response.json();
-
-    return data;
-}

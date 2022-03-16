@@ -17,9 +17,12 @@ const User = ({ currentItems }) => {
             Accept: "*/*",
             Authorization: `${ctx.tokenType} ${ctx.accessToken}`
         }
-
-        const response = await fetchFunction(request, 'DELETE', headers);
-        console.log(response);
+        
+        const confirmation = window.confirm("_Are you sure you want to delete this user?_");
+        if(confirmation){
+            fetchFunction(request, 'DELETE', headers);
+        }
+        
     }
 
     const handleEdit = (id) => {

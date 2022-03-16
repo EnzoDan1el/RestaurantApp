@@ -3,7 +3,7 @@ footer {
     left: 0;
     bottom: 0;
     right: 0;
-    padding: 5rem;
+    padding: 2rem;
 }
 
 footer hr{
@@ -13,6 +13,5 @@ footer hr{
 footer div{
     display: flex;
     justify-content: center;
-    align-items: center;
     font-size: 1rem;
 }

@@ -11,6 +11,8 @@ import AdminOnly from "./components/AdminOnly";
 import NotFound from "./pages/NotFound";
 import NewUser from "./pages/NewUser";
 import EditUser from "./pages/EditUser";
+import EditProduct from "./pages/EditProduct";
+import EditOrder from "./pages/EditOrder";
 
 function App() {
 
@@ -26,12 +28,20 @@ function App() {
                     <Tables />
                 </ProtectedRoute>
 
-                <ProtectedRoute path='/orders'>
+                <ProtectedRoute path='/orders' exact>
                     <Orders />
                 </ProtectedRoute>
 
-                <AdminOnly path='/products'>
+                <AdminOnly path='/orders/edit/:id'>
+                    <EditOrder />
+                </AdminOnly>
+
+                <AdminOnly path='/products' exact>
                     <Products />
+                </AdminOnly>
+
+                <AdminOnly path='/products/edit/:id'>
+                    <EditProduct />
                 </AdminOnly>
 
                 <AdminOnly path='/categories'>

@@ -45,6 +45,8 @@ const Form = (props) => {
                 />
 
                 {props.passwordError && <p style={{color: 'red'}}>{props.passwordError}</p>}
+
+                {props.error && <p style={{color: 'red'}}>{props.error}</p>}
                 
                 <div className={classes['save-container']}>
                     <button className={classes.save}>Save</button>

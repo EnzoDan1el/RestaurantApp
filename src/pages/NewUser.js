@@ -30,6 +30,7 @@ const NewUser = () => {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [nameError, setNameError] = useState('');
+    const [error, setError] = useState('');
 
     const handleSelect = (event) => {
         setRole(event.target.value)
@@ -55,7 +56,11 @@ const NewUser = () => {
             body.append("Password", values.password);
 
             const response = await fetchFunction('users', 'POST', headers, body);
-            console.log(response);
+
+            if(typeof(response) === 'string'){
+                setError(response);
+            }
+            
             history.replace('/users');
         }
     }
@@ -71,6 +76,7 @@ const NewUser = () => {
             nameError={nameError}
             emailError={emailError}
             passwordError={passwordError}
+            error={error}
         />
     );
 }

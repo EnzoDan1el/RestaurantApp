@@ -1,0 +1,52 @@
+.order{
+    width: 85%;
+    margin: 1rem auto;
+}
+
+.order-labels{
+    display: grid;
+    grid-template-columns: repeat(3, 20rem);
+}
+
+.order-inputs{
+    display: grid;
+    padding: 0.4rem;
+    grid-template-columns: 20rem 20rem 20rem 5rem;
+}
+
+.order-inputs input{
+    width: 19rem;
+}
+
+.order-inputs select{
+    width: 19rem;
+    height: 30px;
+    margin: 0;
+}
+
+.order-filter {
+    border: 1px solid blue;
+    color: blue;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.order-options {
+    display: grid;
+    grid-template-columns: repeat(2, 7.5rem) 10rem 15rem repeat(2, 10rem);
+}
+.order-options h4 {
+    cursor: pointer;
+}
+
+.bar {
+    display: flex;
+    gap: 1rem;
+    color: rgb(0, 97, 97);
+    margin-top: 1rem;
+    cursor: pointer;
+}
+
+.active {
+    text-decoration: underline;
+}

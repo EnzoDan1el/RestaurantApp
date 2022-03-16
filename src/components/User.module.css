@@ -9,10 +9,16 @@ li {
     background-color: rgb(218, 218, 218);
 }
 
-.edit {
-    margin-right: 0.5rem;
-    background-color: green;
+.edit, .delete {
+    border-radius: 10px;
+    cursor: pointer;
 }
 .delete {
-    background-color: red;
+    color: red;
+    border: 1px solid red;
 }
+.edit {
+    color: green;
+    border: 1px solid green;
+}
+

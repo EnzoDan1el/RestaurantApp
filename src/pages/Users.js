@@ -30,6 +30,7 @@ const Users = () => {
             const data = await fetchFunction('users', 'GET', headers);
             const items = await data.items;
             setUsers(items);
+
             const endOffset = itemOffset + itemsPerPage;
             setCurrentItems(users.slice(itemOffset, endOffset));
             setPageCount(Math.ceil(users.length / itemsPerPage));

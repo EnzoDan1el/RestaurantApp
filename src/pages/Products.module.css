@@ -2,7 +2,6 @@
     width: 80%;
     margin: 2rem auto;
     height: 400px;
-    overflow-y: scroll;
 }
 
 .header {
@@ -24,10 +23,14 @@
     font-size: 1.2rem;
 }
 
-.labels, 
-.inputs{
+.labels{
     display: grid;
     grid-template-columns: 25rem 25rem;
+}
+
+.inputs {
+    display: grid;
+    grid-template-columns: 25rem 25rem 5rem;
 }
 
 .inputs input, select{
@@ -37,5 +40,25 @@
 
 .second-header{
     display: grid;
-    grid-template-columns: 17rem 27rem 17rem;
+    grid-template-columns: 15rem 20rem 15rem;
+}
+
+.filter-button {
+    margin-bottom: 0.5rem;
+    border: 1px solid blue;
+    color: blue;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.bar-product {
+    display: flex;
+    gap: 1rem;
+    color: rgb(0, 97, 97);
+    margin-top: 1rem;
+    cursor: pointer;
+}
+
+.active {
+    text-decoration: underline;
 }
