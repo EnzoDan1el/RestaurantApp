@@ -54,12 +54,13 @@ const EditProduct = () => {
     }
 
     const handleSubmit = async () => {
-        const response = await fetchFunction(request, 'PUT', headersPut, JSON.stringify(values));
+        fetchFunction(request, 'PUT', headersPut, JSON.stringify(values));
         history.replace('/products');
     }
 
     return(
         <EditForm 
+            title='Edit Product'
             products={products ? products : []}
             name = {product.name}
             price = {product.price}

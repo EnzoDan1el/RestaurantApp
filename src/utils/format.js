@@ -22,3 +22,13 @@ export const format = (date) => {
         return formated;
     }
 }
+
+export const formatPrice = (price) => {
+    
+    if(price === 0){
+        return price;
+    }
+
+    const newPrice = `${price.toFixed(2)} BGN`
+    return newPrice;
+}   

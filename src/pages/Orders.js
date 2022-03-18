@@ -29,11 +29,22 @@ const Orders = () => {
         setOrders(items);
 
         const endOffset = itemOffset + itemsPerPage;
-        setCurrentItems(orders.slice(itemOffset, endOffset));
-        setPageCount(Math.ceil(orders.length / itemsPerPage));
+        setCurrentItems(items.slice(itemOffset, endOffset));
+        setPageCount(Math.ceil(items.length / itemsPerPage));
     }
 
     useEffect(()=>{
+
+        fetchOrders('orders')
+    }, []);
+
+    useEffect(()=>{
+
+        fetchOrders('orders')
+    }, [itemOffset]);
+    
+    useEffect(()=>{
+        console.log("render status");
         let request;
         if(status === 'All'){
             request = order ? `orders?SortDirection=${order}`: `orders`
@@ -46,8 +57,8 @@ const Orders = () => {
         request = userName ?  request + `UserName=${userName}`: request;
 
         fetchOrders(request);
-        
-    }, [orders, itemOffset, itemsPerPage, order, status, userName])
+
+    }, [status, order])
 
     const handlePageClick = (event) => {
         const newOffset = (event.selected * itemsPerPage) % orders.length;

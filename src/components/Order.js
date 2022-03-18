@@ -1,5 +1,5 @@
 import classes from './Order.module.css';
-import { format } from '../utils/format';
+import { format, formatPrice } from '../utils/format';
 import AuthContext from '../context-store/authentication-ctx';
 import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -39,7 +39,7 @@ const Order = ({currentItems}) => {
                         <div>{order.userName}</div>
                         <div>{format(order.createdAt)}</div>
                         <div>{order.status}</div>
-                        <div>{order.totalPrice}</div>
+                        <div>{formatPrice(order.totalPrice)}</div>
                         
     
                         <button 

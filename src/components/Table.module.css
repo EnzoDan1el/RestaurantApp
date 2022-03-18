@@ -1,0 +1,40 @@
+.table-container {
+    border: 1px solid rgb(218, 218, 218);
+    width: 15rem;
+    cursor: pointer;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    border-bottom: 1px solid rgb(218, 218, 218);
+}
+
+.table-id, 
+.table-waiter, 
+.table-price{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+}
+
+.table-id {
+    padding: 1rem;
+}
+
+.status-active,
+.status-free { 
+    color: #fff;
+    border: none;
+    border-radius: 30%;
+    padding: 0.2rem;
+}
+.status-active{
+    background-color: rgb(40, 40, 255);
+}
+.status-free{
+    background-color: rgb(110, 100, 100);
+}
+

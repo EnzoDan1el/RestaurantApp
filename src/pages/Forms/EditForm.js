@@ -1,6 +1,7 @@
 import classes from './EditForm.module.css';
 
 const EditForm = ({
+        title,
         name, 
         products, 
         description,
@@ -13,7 +14,7 @@ const EditForm = ({
 
     return(
         <div className={classes['form-container']}>
-            <h1>Edit Product</h1>
+            <h1>{title}</h1>
             <hr/>
             <form onSubmit={handleSubmit}>
                 <label>Product</label>

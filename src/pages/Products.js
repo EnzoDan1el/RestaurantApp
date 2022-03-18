@@ -4,61 +4,64 @@ import { useContext, useState, useEffect } from 'react';
 import AuthContext from '../context-store/authentication-ctx';
 import { fetchFunction } from '../utils/fetch-data';
 import ReactPaginate from 'react-paginate';
+import { useHistory } from 'react-router-dom';
 
 const Products = () => {
 
+    const history = useHistory();
     const [products, setProducts] = useState([]);
-    const [renderedProducts, setRenderedProducts] = useState([]);
-    const [search, setSearch] = useState('');
     const ctx = useContext(AuthContext);
     const [currentItems, setCurrentItems] = useState(null);
     const [pageCount, setPageCount] = useState(0);
     const [itemOffset, setItemOffset] = useState(0);
     const itemsPerPage = 3;
     const [category, setCategory] = useState('All');
+
+    const headers = {
+        Accept: "text/plain",
+        Authorization: `${ctx.tokenType} ${ctx.accessToken}`
+    }
+    const fetchProducts = async () => { 
+        const data = await fetchFunction('products', 'GET', headers);
+        const items = await data.items;
+        setProducts(items)
+     
+        const endOffset = itemOffset + itemsPerPage;
+        setCurrentItems(items.slice(itemOffset, endOffset));
+        setPageCount(Math.ceil(items.length / itemsPerPage));
+    };
     
     useEffect(() => {
-        const headers = {
-            Accept: "text/plain",
-            Authorization: `${ctx.tokenType} ${ctx.accessToken}`
-        }
-
-        const fetchProducts = async () => { 
-            const data = await fetchFunction('products', 'GET', headers);
-            const items = await data.items;
-            setProducts(items)
-            setRenderedProducts(items);
-            
-            const endOffset = itemOffset + itemsPerPage;
-            setCurrentItems(renderedProducts.slice(itemOffset, endOffset));
-            setPageCount(Math.ceil(renderedProducts.length / itemsPerPage));
-        };
 
         fetchProducts();
-    }, [products, itemOffset, itemsPerPage]);
 
-    useEffect(()=>{
-        const searchArr = products.filter(product => product.name.localeCompare(search) === 0);
-        if(searchArr.length > 0){
-            setRenderedProducts(searchArr);
-        }else{
-            setRenderedProducts(['Not Found'])
-        }
-    }, [products, search])
+    }, []);
+
+    useEffect(() => {
+
+        fetchProducts();
+
+    }, [ itemOffset ]);
 
     useEffect(()=>{
 
         if(category === 'All'){
-            setRenderedProducts(products);
+
+            const endOffset = itemOffset + itemsPerPage;
+            setCurrentItems(products.slice(itemOffset, endOffset));
+            setPageCount(Math.ceil(products.length / itemsPerPage));
+
         }else {
             const tmpArray = products.filter(product => product.category === category)
-            setRenderedProducts(tmpArray);
+            console.log(tmpArray);
+            setCurrentItems(tmpArray);
         }
 
-    }, [products, category])
-
+    }, [category])
+    
+    
     const handlePageChange = (event) => {
-        const newOffset = (event.selected * itemsPerPage) % renderedProducts.length;
+        const newOffset = (event.selected * itemsPerPage) % products.length;
         setItemOffset(newOffset);
     };
 
@@ -66,16 +69,15 @@ const Products = () => {
         setCategory(event.target.value)
     }
 
-    const handleSearch = (event) => {
-        setCategory('All');
-        setSearch(event.target.value);
+    const handleNewProduct = () => {
+        history.push('/products/new')
     }
 
     return(
         <div className={classes.container}>
             <div className={classes.header}>
                 <h1>Products</h1>
-                <button>Add new product</button>
+                <button onClick={handleNewProduct}>Add new product</button>
             </div>
             <hr/>
             <div className={classes.filter}>
@@ -86,8 +88,6 @@ const Products = () => {
                 <div className={classes.inputs}>
                     <input 
                         type='text'
-                        value={search}
-                        onChange={handleSearch}
                     />
                     <select value={category} onChange={handleSelect}>
                         <option value={'All'}>All</option>

@@ -6,13 +6,16 @@ import Orders from "./pages/Orders";
 import Products from "./pages/Products";
 import Categories from "./pages/Categories";
 import Users from "./pages/Users";
-import ProtectedRoute from "./components/ProtectedRoute";
-import AdminOnly from "./components/AdminOnly";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import AdminOnly from "./routes/AdminOnly";
 import NotFound from "./pages/NotFound";
 import NewUser from "./pages/NewUser";
 import EditUser from "./pages/EditUser";
 import EditProduct from "./pages/EditProduct";
 import EditOrder from "./pages/EditOrder";
+import NewProduct from "./pages/NewProduct";
+import EditCategory from "./pages/EditCategory";
+import NewCategory from "./pages/NewCategory";
 
 function App() {
 
@@ -40,12 +43,24 @@ function App() {
                     <Products />
                 </AdminOnly>
 
+                <AdminOnly path='/products/new'>
+                    <NewProduct />
+                </AdminOnly>
+
                 <AdminOnly path='/products/edit/:id'>
                     <EditProduct />
                 </AdminOnly>
 
-                <AdminOnly path='/categories'>
+                <AdminOnly path='/categories' exact>
                     <Categories/>
+                </AdminOnly>
+
+                <AdminOnly path='/categories/new'>
+                    <NewCategory/>
+                </AdminOnly>
+
+                <AdminOnly path='/categories/edit/:id'>
+                    <EditCategory />
                 </AdminOnly>
 
                 <AdminOnly path='/users' exact>

@@ -16,34 +16,34 @@ const Users = () => {
     const [pageCount, setPageCount] = useState(0);
     const [itemOffset, setItemOffset] = useState(0);
     const itemsPerPage = 3;
+
+    const headers = {
+        Accept: "text/plain",
+        Authorization: `${ctx.tokenType} ${ctx.accessToken}`
+    }
+
+    const fetchUsers = async () => { 
+        const data = await fetchFunction('users', 'GET', headers);
+        const items = await data.items;
+        setUsers(items);
+
+        const endOffset = itemOffset + itemsPerPage;
+        setCurrentItems(items.slice(itemOffset, endOffset));
+        setPageCount(Math.ceil(items.length / itemsPerPage));
+    };
+
+    useEffect(()=>{
+
+        fetchUsers()
+
+    }, [])
     
     useEffect(() => {
 
-        let isApiSubscribed = true;
+        fetchUsers()
 
-        const headers = {
-            Accept: "text/plain",
-            Authorization: `${ctx.tokenType} ${ctx.accessToken}`
-        }
-
-        const fetchUsers = async () => { 
-            const data = await fetchFunction('users', 'GET', headers);
-            const items = await data.items;
-            setUsers(items);
-
-            const endOffset = itemOffset + itemsPerPage;
-            setCurrentItems(users.slice(itemOffset, endOffset));
-            setPageCount(Math.ceil(users.length / itemsPerPage));
-        };
-        
-        if(isApiSubscribed){
-            fetchUsers();
-        }
-
-        return () => { isApiSubscribed = false }
-
-    }, [users, itemOffset, itemsPerPage]);
-
+    }, [ itemOffset ]);
+    
     const handlePageClick = (event) => {
         const newOffset = (event.selected * itemsPerPage) % users.length;
         setItemOffset(newOffset);

@@ -1,0 +1,29 @@
+.cat-form-container {
+    width: 30%;
+    margin: 5rem auto;
+}
+
+.cat-form-container form select{
+    width: 400px;
+    height: 30px;
+}
+
+.cat-label {
+    margin: 1rem 0 0.5rem 0;
+}
+
+.cat-btn-div {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 0.5rem;
+}
+
+.cat-btn-div button {
+    padding: 0.4rem 0.8rem;
+    margin-top: 0.4rem;
+    color: #fff;
+    background-color: rgb(68, 139, 163);
+    border: none;
+    border-radius: 5px;
+}

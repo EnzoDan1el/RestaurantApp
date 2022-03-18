@@ -1,0 +1,15 @@
+.tables-container {
+    height: 500px;
+    overflow-y: scroll;
+    padding-left: 1.5rem;
+    padding-right: 1rem;
+}
+
+.tables-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.single-table {
+    padding: 1rem 0;
+}

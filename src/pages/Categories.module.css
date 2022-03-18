@@ -1,0 +1,21 @@
+.cat-container {
+    width: 70%;
+    margin: 1rem auto;
+    height: 450px;
+    overflow-y: scroll;
+}
+
+.cat-header {
+    display: flex;
+    margin: 0 4rem;
+    justify-content: space-between;
+}
+
+.cat-header button{
+    padding: 0 1rem;
+    background-color: rgb(40, 40, 255);
+    color: #fff;
+    border-radius: 10%;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
