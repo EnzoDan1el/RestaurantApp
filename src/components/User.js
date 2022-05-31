@@ -20,7 +20,11 @@ const User = ({ currentItems }) => {
         
         const confirmation = window.confirm("_Are you sure you want to delete this user?_");
         if(confirmation){
-            fetchFunction(request, 'DELETE', headers);
+            const response = await fetchFunction(request, 'DELETE', headers);
+            if(response === 'Bad Request'){
+                window.alert("The user has at least one active order, can't delete")
+            }
+            history.replace('/users')
         }
         
     }

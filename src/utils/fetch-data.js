@@ -12,6 +12,10 @@ export const fetchFunction = async (request, method, payload, body=null) => {
         return response.statusText;
     }
 
+    if(method === 'DELETE'){
+        return response;
+    }
+    
     const data = await response.json();
     return data;
 }

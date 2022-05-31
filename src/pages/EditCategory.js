@@ -55,7 +55,7 @@ const EditCategory = () => {
             "parentId": parentId
         }
 
-        fetchFunction(request, 'PUT', headers, JSON.stringify(body));
+        fetchFunction(request, 'PUT', headersPut, JSON.stringify(body));
 
         setTimeout(()=>{
             history.replace('/categories');

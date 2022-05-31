@@ -29,11 +29,6 @@ const EditUser = () => {
         Accept: "text/plain",
         Authorization: `${ctx.tokenType} ${ctx.accessToken}`
     }
-    const headersPut = {
-        Accept: "text/plain",
-        Authorization: `${ctx.tokenType} ${ctx.accessToken}`,
-        "Content-Type": "multipart/form-data"
-    }
 
     useEffect(()=>{
         const retrieveData = async () => {
@@ -68,9 +63,9 @@ const EditUser = () => {
             body.append("Role", role);
             body.append("Password", values.password);
 
-            const response = await fetchFunction('users', 'PUT', headersPut, body);
+            const response = await fetchFunction('users', 'PUT', headers, body);
 
-            if(typeof(response) === 'string'){
+            if(response === 'Bad Request'){
                 setError(response);
             }
             

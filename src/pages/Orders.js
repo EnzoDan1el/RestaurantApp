@@ -9,8 +9,11 @@ const Orders = () => {
 
     const [orders, setOrders] = useState([]);
     const [order, setOrder] = useState('');
-    const [status, setStatus] = useState('');
+    const [status, setStatus] = useState('All');
     const [userName, setUserName] = useState('');
+    const [tableNumbers, setTableNumbers] = useState([]);
+    const [selectedTable, setSelectedTable] = useState();
+    const [found, setFound] = useState(true);
     const ctx = useContext(AuthContext);
     const headers = {
         Accept: "text/plain",
@@ -26,6 +29,10 @@ const Orders = () => {
         const response = await fetchFunction(request, 'GET', headers);
         const {data} = await response;
         const { items } = data;
+        const arr = items.map(item => item.tableNumber);
+        const uniq = [...new Set(arr)];
+        uniq.sort((a, b) => a - b)
+        setTableNumbers(uniq);
         setOrders(items);
 
         const endOffset = itemOffset + itemsPerPage;
@@ -35,30 +42,62 @@ const Orders = () => {
 
     useEffect(()=>{
 
-        fetchOrders('orders')
+        fetchOrders('orders?PageSize=20')
     }, []);
 
     useEffect(()=>{
 
-        fetchOrders('orders')
+        const endOffset = itemOffset + itemsPerPage;
+        setCurrentItems(orders.slice(itemOffset, endOffset));
+        setPageCount(Math.ceil(orders.length / itemsPerPage));
+
     }, [itemOffset]);
     
     useEffect(()=>{
-        console.log("render status");
-        let request;
         if(status === 'All'){
-            request = order ? `orders?SortDirection=${order}`: `orders`
-        }else{
-            request = order ? 
-                `orders?Status=${status}&SortDirection=${order}`: 
-                `orders?Status=${status}`;
+
+            const endOffset = itemOffset + itemsPerPage;
+            setCurrentItems(orders.slice(itemOffset, endOffset));
+            setPageCount(Math.ceil(orders.length / itemsPerPage));
+
+        }else {
+            const tmpArray = orders.filter(order => order.status === status)
+            setCurrentItems(tmpArray);
         }
 
-        request = userName ?  request + `UserName=${userName}`: request;
+    }, [status]);
 
-        fetchOrders(request);
+    useEffect(()=>{
+        if(selectedTable === 'All'){
 
-    }, [status, order])
+            const endOffset = itemOffset + itemsPerPage;
+            setCurrentItems(orders.slice(itemOffset, endOffset));
+            setPageCount(Math.ceil(orders.length / itemsPerPage));
+
+        }else {
+            const tmpArray = orders.filter(order => order.tableNumber.toString() === selectedTable.toString())
+            setCurrentItems(tmpArray);
+        }
+
+    }, [selectedTable]);
+
+    useEffect(()=>{
+        const tmpItem = orders.filter(order => order.userName.toLowerCase().indexOf(userName.toLowerCase()) !== -1)
+        if(tmpItem.length > 0){
+            setCurrentItems(tmpItem);
+            setFound(true);
+        }else{
+            setFound(false);
+        }
+
+        if(!userName) {
+            setFound(true);
+            const endOffset = itemOffset + itemsPerPage;
+            setCurrentItems(orders.slice(itemOffset, endOffset));
+            setPageCount(Math.ceil(orders.length / itemsPerPage));
+        }
+
+    }, [userName])
 
     const handlePageClick = (event) => {
         const newOffset = (event.selected * itemsPerPage) % orders.length;
@@ -78,6 +117,10 @@ const Orders = () => {
         setStatus(event.target.value);
     }
 
+    const handleTableSelect = (event) => {
+        setSelectedTable(event.target.value);
+    }
+
     return(
         <div className={classes.order}>
             <h1>Orders</h1>
@@ -93,10 +136,10 @@ const Orders = () => {
                     value={userName}
                     onChange={e => setUserName(e.target.value)}
                 />
-                <select>
-                    <option>All</option>
-                    {orders.map(item => (
-                        <option value={item.tableId}>{item.tableId}</option>
+                <select onChange={handleTableSelect}>
+                    <option value={'All'}>All</option>
+                    {tableNumbers.map(item => (
+                        <option value={item}>{item}</option>
                     ))}
                 </select>
                 <select onChange={handleStatusSelect}>
@@ -115,18 +158,20 @@ const Orders = () => {
                 <h4 onClick={handleOrderClick}>Price</h4>
             </div>
             <hr/>
+            {!found && <p style={{color: 'red'}}>No waiter with that name</p>}
             <Order currentItems={currentItems}/>
-            <ReactPaginate
-                breakLabel="..."
-                nextLabel="next >"
-                onPageChange={handlePageClick}
-                pageRangeDisplayed={5}
-                pageCount={pageCount}
-                previousLabel="< previous"
-                renderOnZeroPageCount={null}
-                className={classes.bar}
-                activeClassName={classes.active}
-            />
+            {status === 'All' && 
+                <ReactPaginate
+                    breakLabel="..."
+                    nextLabel="next >"
+                    onPageChange={handlePageClick}
+                    pageCount={pageCount}
+                    previousLabel="< previous"
+                    renderOnZeroPageCount={null}
+                    className={classes.bar}
+                    activeClassName={classes.active}
+                />
+            }
         </div>
     );
 }

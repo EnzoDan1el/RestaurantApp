@@ -23,7 +23,7 @@ const Users = () => {
     }
 
     const fetchUsers = async () => { 
-        const data = await fetchFunction('users', 'GET', headers);
+        const data = await fetchFunction('users?PageSize=20', 'GET', headers);
         const items = await data.items;
         setUsers(items);
 
@@ -37,10 +37,13 @@ const Users = () => {
         fetchUsers()
 
     }, [])
+
     
     useEffect(() => {
 
-        fetchUsers()
+        const endOffset = itemOffset + itemsPerPage;
+        setCurrentItems(users.slice(itemOffset, endOffset));
+        setPageCount(Math.ceil(users.length / itemsPerPage));
 
     }, [ itemOffset ]);
     
@@ -71,7 +74,6 @@ const Users = () => {
                     breakLabel="..."
                     nextLabel="next >"
                     onPageChange={handlePageClick}
-                    pageRangeDisplayed={5}
                     pageCount={pageCount}
                     previousLabel="< previous"
                     renderOnZeroPageCount={null}

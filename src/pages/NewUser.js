@@ -21,8 +21,7 @@ const NewUser = () => {
     const body = new FormData();
     const headers = {
         Accept: "text/plain",
-        Authorization: `${ctx.tokenType} ${ctx.accessToken}`,
-        "Content-Type": "multipart/form-data"
+        Authorization: `${ctx.tokenType} ${ctx.accessToken}`
     }
 
     const [role, setRole] = useState('');
@@ -49,7 +48,7 @@ const NewUser = () => {
 
         const validForm = validEmail && validPassWord && validName;
 
-        if (validForm) {
+        if (validForm) {  
             body.append("Name", values.name);
             body.append("Email", values.email);
             body.append("Role", role);

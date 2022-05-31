@@ -62,8 +62,8 @@ const LoginForm = () => {
         const valid = validateEmail(values.email) && validatePassword(values.password);
         if (valid){
             const data = await loginFetch(values.email, values.password);
-            if(typeof(data) === 'string'){
-                setUserError('Bad Request');
+            if(data === 'Bad Request'){
+                setUserError('Either email or password incorrect');
             }else{
                 ctx.login();
                 ctx.roleSetter(data.role);

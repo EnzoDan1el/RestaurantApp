@@ -5,11 +5,14 @@ import AuthContext from '../context-store/authentication-ctx';
 import { fetchFunction } from '../utils/fetch-data';
 import ReactPaginate from 'react-paginate';
 import { useHistory } from 'react-router-dom';
+import { toBeEmpty } from '@testing-library/jest-dom/dist/matchers';
 
 const Products = () => {
 
     const history = useHistory();
     const [products, setProducts] = useState([]);
+    const [search, setSearch] = useState('');
+    const [found, setFound] = useState(true);
     const ctx = useContext(AuthContext);
     const [currentItems, setCurrentItems] = useState(null);
     const [pageCount, setPageCount] = useState(0);
@@ -22,7 +25,7 @@ const Products = () => {
         Authorization: `${ctx.tokenType} ${ctx.accessToken}`
     }
     const fetchProducts = async () => { 
-        const data = await fetchFunction('products', 'GET', headers);
+        const data = await fetchFunction('products?PageSize=20', 'GET', headers);
         const items = await data.items;
         setProducts(items)
      
@@ -39,7 +42,9 @@ const Products = () => {
 
     useEffect(() => {
 
-        fetchProducts();
+        const endOffset = itemOffset + itemsPerPage;
+        setCurrentItems(products.slice(itemOffset, endOffset));
+        setPageCount(Math.ceil(products.length / itemsPerPage));
 
     }, [ itemOffset ]);
 
@@ -53,11 +58,28 @@ const Products = () => {
 
         }else {
             const tmpArray = products.filter(product => product.category === category)
-            console.log(tmpArray);
             setCurrentItems(tmpArray);
         }
 
     }, [category])
+
+    useEffect(()=>{
+        const tmpItem = products.filter(product => product.name.toLowerCase().indexOf(search.toLowerCase()) !== -1)
+        if(tmpItem.length > 0){
+            setCurrentItems(tmpItem);
+            setFound(true);
+        }else {
+            setFound(false);
+        }
+
+        if(!search) {
+            setFound(true);
+            const endOffset = itemOffset + itemsPerPage;
+            setCurrentItems(products.slice(itemOffset, endOffset));
+            setPageCount(Math.ceil(products.length / itemsPerPage));
+        }
+
+    }, [search])
     
     
     const handlePageChange = (event) => {
@@ -88,6 +110,8 @@ const Products = () => {
                 <div className={classes.inputs}>
                     <input 
                         type='text'
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
                     />
                     <select value={category} onChange={handleSelect}>
                         <option value={'All'}>All</option>
@@ -95,7 +119,10 @@ const Products = () => {
                             <option value={item.category}>{item.category}</option>
                         )}
                     </select>
-                    <button className={classes['filter-button']}>Filter</button>
+                    <button 
+                      className={classes['filter-button']}>
+                          Filter
+                    </button>
                 </div>
                 
             </div>
@@ -106,7 +133,8 @@ const Products = () => {
                 <h4>Price</h4>
             </div>
             <div>
-                <Product currentItems={currentItems ? currentItems : []}/>
+                {!found && <p style={{color: 'red'}}>No product with that name</p>}
+                <Product currentItems={currentItems ? currentItems : []}/> 
                 <ReactPaginate
                     breakLabel='...'
                     nextLabel='next >'
